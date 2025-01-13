@@ -153,42 +153,43 @@ class PersonController extends Controller
 
     // Show the form to edit person details
     public function editForm($id)
-    {
-        $person = Person::findOrFail($id);
-        $barangay = Barangay::findOrFail($person->barangay_id);
-        $leaders = $barangay->leaders;
+{
+    $person = Person::findOrFail($id);
+    $barangay = Barangay::findOrFail($person->barangay_id);
+    $leaders = $barangay->leaders; // Assuming Barangay has a relationship with Leaders
 
-        return view('edit-person', compact('person', 'barangay', 'leaders'));
-    }
+    return view('edit-person', compact('person', 'barangay', 'leaders'));
+}
 
-    // Update person details
-    public function edit(Request $request, $id)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'age' => 'required|integer|min:0',
-            'birthdate' => 'required|date',
-            'purok_no' => 'required|string|max:255',
-            'organization' => 'required|string|in:Farmers,Women,Senior Citizen,4Ps,Others,N/A',
-            'leader_id' => 'required|exists:leaders,id',
-        ]);
+public function edit(Request $request, $id)
+{
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'middle_name' => 'nullable|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'age' => 'required|integer|min:0',
+        'birthdate' => 'required|date',
+        'purok_no' => 'required|string|max:255',
+        'organization' => 'required|string|in:Farmers,Women,Senior Citizen,4Ps,Others,N/A',
+        'leader_id' => 'required|exists:leaders,id', // Validate leader exists
+        'status' => 'required|string|in:Uswag (Straight),Mayor Ian (Parallel)',
+    ]);
 
-        $person = Person::findOrFail($id);
-        $person->update([
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'age' => $request->age,
-            'birthdate' => $request->birthdate,
-            'purok_no' => $request->purok_no,
-            'organization' => $request->organization,
-            'leader_id' => $request->leader_id,
-        ]);
+    $person = Person::findOrFail($id);
+    $person->update([
+        'first_name' => $request->first_name,
+        'middle_name' => $request->middle_name,
+        'last_name' => $request->last_name,
+        'age' => $request->age,
+        'birthdate' => $request->birthdate,
+        'purok_no' => $request->purok_no,
+        'organization' => $request->organization,
+        'leader_id' => $request->leader_id,
+        'status' => $request->status,
+    ]);
 
-        return redirect()->route('showPeople', $person->barangay_id)->with('success', 'Person updated successfully!');
-    }
+    return redirect()->route('showPeople', $person->barangay_id)->with('success', 'Person updated successfully!');
+}
 
     // Delete a person
     public function deletePerson($id)

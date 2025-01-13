@@ -46,8 +46,10 @@ Route::delete('/person/{id}', [PersonController::class, 'deletePerson'])->name('
         ->name('showPeople');
 
     Route::get('/search-people', [PersonController::class, 'searchPeople'])->name('searchPeople');
+    
     Route::get('/people/{id}/edit', [PersonController::class, 'editForm'])->name('editPerson');
     Route::post('/people/{id}/edit', [PersonController::class, 'edit'])->name('editPerson.submit');
+    
     Route::get('/people/{id}/details', [PersonController::class, 'getDetails']);
     Route::post('/barangay/{barangayId}/person/store', [PersonController::class, 'storePerson'])->name('storePerson');
  
