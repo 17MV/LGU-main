@@ -7,6 +7,7 @@
 @section('content')
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Add Person to Barangay</h1>
+    <h1 class="text-2xl font-bold mb-4 text-center"> {{ $barangay->name }}</h1> <!-- Dynamically display the barangay name and center it -->
 
 <!-- Add Person Form -->
 <form action="{{ route('addPerson', $barangay->id) }}" method="POST" class="mt-2">
