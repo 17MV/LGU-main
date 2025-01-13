@@ -114,10 +114,25 @@ class PersonController extends Controller
         return response()->json($people);
     }
 
+
+    public function filterPeople(Request $request)
+{
+    $leaderId = $request->query('leader_id');
+
+    $query = Person::with(['barangay', 'leader']);
+    if ($leaderId) {
+        $query->where('leader_id', $leaderId);
+    }
+
+    $people = $query->get();
+
+    return response()->json($people);
+}
+
     // Get person details
     public function getDetails($id)
     {
-        $person = Person::find($id);
+        $person = Person::with('barangay', 'leader')->find($id);
 
         if (!$person) {
             return response()->json(['error' => 'Person not found'], 404);
@@ -131,7 +146,8 @@ class PersonController extends Controller
             'birthdate' => $person->birthdate,
             'purok_no' => $person->purok_no,
             'organization' => $person->organization,
-            'leader_id' => $person->leader_id,
+            'leader_id' => $person->leader->name ?? 'N/A',
+            'status' => $person->status,
         ]);
     }
 

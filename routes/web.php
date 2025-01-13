@@ -61,6 +61,9 @@ Route::delete('/person/{id}', [PersonController::class, 'deletePerson'])->name('
     Route::get('/reports', [ReportController::class, 'showReports'])->name('reports');
 
     Route::post('/add-leader', [LeaderController::class, 'store'])->name('addLeader');
-    
+
     Route::get('/barangay/{barangayId}/add-person', [LeaderController::class, 'showAddPersonForm'])->name('addPersonForm');
+
+    Route::get('/reports/people/filter', [PersonController::class, 'filterPeople'])->name('filterPeople');
+
 });
