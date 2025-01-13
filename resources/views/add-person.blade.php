@@ -98,14 +98,26 @@
 @endif
 
 <script>
-    // Show overlay if there is a full name error
-    @if ($errors->has('full_name'))
-        document.getElementById('warning-overlay').style.display = 'flex';
-    @endif
+        // Show overlay if there is a full name error
+        @if ($errors->has('full_name'))
+            document.getElementById('warning-overlay').style.display = 'flex';
+        @endif
 
-    // Close overlay function
-    function closeOverlay() {
-        document.getElementById('warning-overlay').style.display = 'none';
-    }
-</script>
+        // Close overlay function
+        function closeOverlay() {
+            document.getElementById('warning-overlay').style.display = 'none';
+        }
+
+        // Capitalize the first letter of names
+        function capitalizeFirstLetter(event) {
+            const input = event.target;
+            input.value = input.value
+                .toLowerCase()
+                .replace(/^\w|\s\w/g, (char) => char.toUpperCase());
+        }
+
+        document.getElementById('first_name').addEventListener('input', capitalizeFirstLetter);
+        document.getElementById('middle_name').addEventListener('input', capitalizeFirstLetter);
+        document.getElementById('last_name').addEventListener('input', capitalizeFirstLetter);
+    </script>
 @endsection
