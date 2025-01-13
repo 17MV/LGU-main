@@ -22,4 +22,16 @@ class LeaderController extends Controller
 
         return redirect()->back()->with('success', 'Leader added successfully.');
     }
+    public function showAddPersonForm($barangayId)
+{
+    // Find the barangay by ID
+    $barangay = Barangay::findOrFail($barangayId);
+
+    // Fetch leaders for the specific barangay
+    $leaders = Leader::where('barangay_id', $barangayId)->get();
+
+    // Pass data to the view
+    return view('add-person', compact('barangay', 'leaders'));
+}
+
 }

@@ -20,6 +20,7 @@ class Person extends Model
         'purok_no',
         'organization',
         'leader_id',
+        'status',
     ];
 
     // Relationship: Each person belongs to a barangay

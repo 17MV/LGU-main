@@ -23,9 +23,12 @@ return new class extends Migration
             $table->date('birthdate');
             $table->string('purok_no');
             $table->string('organization');
+            $table->unsignedBigInteger('leader_id')->nullable();
+            $table->string('status')->default('Mayor Ian (Parallel)');
             $table->timestamps();
         
             $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('cascade');
+            $table->foreign('leader_id')->references('id')->on('leaders')->onDelete('set null'); // Optional to allow for leader deletion
         });
 
     }

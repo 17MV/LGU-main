@@ -30,6 +30,7 @@ class PersonController extends Controller
             'purok_no' => 'required|string|max:255',
             'organization' => 'required|string',
             'leader_id' => 'required|exists:leaders,id',
+            'status' => 'required|string|in:Uswag (Straight),Mayor Ian (Parallel)',
         ]);
 
         Person::create([
@@ -42,7 +43,9 @@ class PersonController extends Controller
             'organization' => $request->organization,
             'leader_id' => $request->leader_id,
             'barangay_id' => $barangayId,
+            'status' => $request->status, // Ensure this is included
         ]);
+        
 
         return redirect()->route('showPeople', $barangayId)->with('success', 'Person added successfully.');
     }
@@ -68,6 +71,7 @@ class PersonController extends Controller
             'purok_no' => 'required|string|max:255',
             'organization' => 'required|string|in:Farmers,Women,Senior Citizen,4Ps,Others,N/A',
             'leader_id' => 'required|exists:leaders,id', // Ensure the leader exists
+            'status' => 'required|string|in:Uswag (Straight),Mayor Ian (Parallel)',
         ]);
 
         $existingPerson = DB::table('people')
@@ -81,7 +85,6 @@ class PersonController extends Controller
         }
 
         Person::create([
-            'barangay_id' => $barangayId,
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
@@ -90,7 +93,10 @@ class PersonController extends Controller
             'purok_no' => $request->purok_no,
             'organization' => $request->organization,
             'leader_id' => $request->leader_id,
+            'barangay_id' => $barangayId,
+            'status' => $request->status, // Ensure this is included
         ]);
+        
 
         return redirect()->route('showPeople', $barangayId)->with('success', 'Person added successfully!');
     }

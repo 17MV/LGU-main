@@ -15,4 +15,8 @@ class Barangay extends Model
     {
         return $this->hasMany(Person::class);
     }
+    public function leaders()
+{
+    return $this->hasMany(Leader::class);
+}
 }

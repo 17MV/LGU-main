@@ -51,17 +51,26 @@
     <!-- Leader Field -->
     <label for="leader_id" class="block text-sm font-bold mb-1">Leader</label>
     <select name="leader_id" id="leader_id" required class="border border-black p-2 mb-2 rounded w-full">
-        <option value="" disabled selected>Select Leader</option>
-       
-    </select>
+    <option value="" disabled selected>Select Leader</option>
+    @foreach ($leaders as $leader)
+        <option value="{{ $leader->id }}">{{ $leader->name }}</option>
+    @endforeach
 
-    <!-- Status Field -->
-    <label for="status" class="block text-sm font-bold mb-1">Status</label>
-    <select name="status" id="status" required class="border border-black p-2 mb-2 rounded w-full">
-        <option value="" disabled selected>Select Status</option>
-        <option value="Uswag (Straight)">Uswag (Straight)</option>
-        <option value="Mayor Ian (Parallel)">Mayor Ian (Parallel)</option>
-    </select>
+    @if ($leaders->isEmpty())
+        <option value="" disabled>No leaders available</option>
+    @endif
+</select>
+
+
+<!-- Status Field -->
+<label for="status" class="block text-sm font-bold mb-1">Status</label>
+<select name="status" id="status" required class="border border-gray-300 p-2 mb-2 rounded w-full">
+    <option value="" disabled selected>Select Status</option>
+    <option value="Uswag (Straight)">Uswag (Straight)</option>
+    <option value="Mayor Ian (Parallel)">Mayor Ian (Parallel)</option>
+</select>
+
+
 
     <!-- Submit Button (Centered) -->
     <div class="flex justify-center mt-3">
