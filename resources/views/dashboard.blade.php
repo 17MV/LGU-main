@@ -39,7 +39,7 @@
         @csrf
         <h2 class="text-l font-semibold mb-0">Add Barangay:</h2>
         <input type="text" name="name" placeholder="Barangay Name" required
-            class="border p-2 rounded shadow-sm">
+            class="border p-2 rounded shadow-sm " style="text-transform: capitalize;">
         <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition">
             Add Barangay
         </button>
@@ -47,20 +47,57 @@
 </div>
  <!-- Add Leader Form -->
  <form action="{{ route('addLeader') }}" method="POST" class="flex items-center space-x-2">
-        @csrf
-        <h2 class="text-l font-semibold mb-0">Add Leader:</h2>
-        <select name="barangayId" required class="border p-2 rounded shadow-sm">
-            <option value="" disabled selected>Select Barangay</option>
-            @foreach($barangays as $barangay)
-                <option value="{{ $barangay->id }}">{{ $barangay->name }}</option>
-            @endforeach
-        </select>
-        <input type="text" name="leaderName" placeholder="Leader Name" required 
-            class="border p-2 rounded shadow-sm">
-        <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition">
-            Add Leader
-        </button>
-    </form>
+    @csrf
+    <h2 class="text-l font-semibold mb-0">Add Leader:</h2>
+    <select name="barangayId" required class="border p-2 rounded shadow-sm">
+        <option value="" disabled selected>Select Barangay</option>
+        @foreach($barangays as $barangay)
+            <option value="{{ $barangay->id }}">{{ $barangay->name }}</option>
+        @endforeach
+    </select>
+    <input type="text" name="leaderName" placeholder="Leader Name" required 
+        class="border p-2 rounded shadow-sm" style="text-transform: capitalize;">
+    <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition">
+        Add Leader
+    </button>
+</form>
+<!-- Messages -->
+@if (session('success'))
+    <div id="success-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4 mt-4">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div id="error-message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4 mt-4">
+        {{ session('error') }}
+    </div>
+@endif
+
+<!-- JavaScript for Auto-Hiding Messages -->
+<script>
+    // Wait for the DOM to load
+    document.addEventListener('DOMContentLoaded', function () {
+        // Select the messages
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+
+        // Set a timeout to hide success message after 5 seconds
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Set a timeout to hide error message after 5 seconds
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 4000);
+        }
+    });
+</script>
+
 
     <!-- List of Barangays -->
     <div class="mb-6">
