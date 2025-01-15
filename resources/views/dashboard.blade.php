@@ -55,7 +55,7 @@
             <option value="{{ $barangay->id }}">{{ $barangay->name }}</option>
         @endforeach
     </select>
-    <input type="text" name="leaderName" placeholder="Leader Name" required 
+    <input type="text" name="leaderName" id="leaderName" placeholder="Leader Name" required 
         class="border p-2 rounded shadow-sm" style="text-transform: capitalize;">
     <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition">
         Add Leader
@@ -197,5 +197,15 @@
     function closeModal() {
         document.getElementById('person-details-modal').classList.add('hidden');
     }
+
+            // Capitalize the first letter of names
+            function capitalizeFirstLetter(event) {
+            const input = event.target;
+            input.value = input.value
+                .toLowerCase()
+                .replace(/^\w|\s\w/g, (char) => char.toUpperCase());
+        }
+
+        document.getElementById('leaderName').addEventListener('input', capitalizeFirstLetter);
 </script>
 @endsection

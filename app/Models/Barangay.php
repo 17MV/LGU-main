@@ -9,14 +9,19 @@ class Barangay extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+    ];
 
-    public function people()
+    // Relationship: A barangay has many persons
+    public function persons()
     {
         return $this->hasMany(Person::class);
     }
+
+    // Relationship: A barangay has many leaders
     public function leaders()
-{
-    return $this->hasMany(Leader::class);
-}
+    {
+        return $this->hasMany(Leader::class);
+    }
 }

@@ -50,15 +50,6 @@ class PersonController extends Controller
         return redirect()->route('showPeople', $barangayId)->with('success', 'Person added successfully.');
     }
 
-    // Show people in a specific barangay
-    public function showPeople($barangayId)
-    {
-        $barangay = Barangay::findOrFail($barangayId);
-        $people = Person::where('barangay_id', $barangayId)->get();
-
-        return view('show-people', compact('barangay', 'people'));
-    }
-
     // Add a new person (old version, may be deprecated if storePerson is preferred)
     public function addPerson(Request $request, $barangayId)
     {
@@ -115,19 +106,45 @@ class PersonController extends Controller
     }
 
 
-    public function filterPeople(Request $request)
-{
-    $leaderId = $request->query('leader_id');
+    public function showPeople($barangayId)
+    {
+        $barangay = Barangay::findOrFail($barangayId);
+        $people = Person::where('barangay_id', $barangayId)->get();
 
-    $query = Person::with(['barangay', 'leader']);
-    if ($leaderId) {
-        $query->where('leader_id', $leaderId);
+        return view('show-people', compact('barangay', 'people'));
     }
+    
+    
+    public function filterPeople(Request $request)
+    {
+        $leaderId = $request->query('leader_id');
+        $purokNo = $request->query('purok_no');
+        $organization = $request->query('organization');
+        $status = $request->query('status');
 
-    $people = $query->get();
+        $query = Person::with(['barangay', 'leader']);
 
-    return response()->json($people);
-}
+        if ($leaderId) {
+            $query->where('leader_id', $leaderId);
+        }
+
+        if ($purokNo) {
+            $query->where('purok_no', $purokNo);
+        }
+
+        if ($organization) {
+            $query->where('organization', $organization);
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $people = $query->get();
+
+        return response()->json($people);
+    }
+    
 
     // Get person details
     public function getDetails($id)

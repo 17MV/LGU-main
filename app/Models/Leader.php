@@ -9,13 +9,20 @@ class Leader extends Model
 {
     use HasFactory;
 
-    // Specifies the attributes that can be mass assigned
-    protected $fillable = ['barangay_id', 'name'];
+    protected $fillable = [
+        'barangay_id',
+        'name',
+    ];
 
-    // Defines the relationship between Leader and Barangay
+    // Relationship: Each leader belongs to a barangay
     public function barangay()
     {
         return $this->belongsTo(Barangay::class);
     }
-}
 
+    // Relationship: Each leader has many persons
+    public function persons()
+    {
+        return $this->hasMany(Person::class);
+    }
+}
