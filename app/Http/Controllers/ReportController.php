@@ -31,22 +31,35 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
         $barangayId = $request->input('barangayId');
+        $leaderId = $request->input('leader_id');
     
-        // Fetch all leaders
-        $leaders = \App\Models\Leader::all();
+        // Fetch all leaders and order them alphabetically
+        $leaders = \App\Models\Leader::orderBy('name')->get();
     
-        // If a specific barangay is selected, filter by it; otherwise, get all people
-        $people = Person::query();
+        // Query for people
+        $peopleQuery = Person::query();
     
         if ($barangayId) {
-            // Get people from the selected barangay
-            $people->where('barangay_id', $barangayId);
+            // Filter by barangay if selected
+            $peopleQuery->where('barangay_id', $barangayId);
         }
     
-        // Order by last_name in alphabetical order (A-Z)
-        $people = $people->orderBy('last_name')->get();
+        if ($leaderId) {
+            // Filter by leader if selected
+            $peopleQuery->where('leader_id', $leaderId);
+        }
     
-        // Pass both people and leaders to the view
+        // Order by leader name and then by person's last name
+        $people = $peopleQuery
+            ->join('leaders', 'people.leader_id', '=', 'leaders.id')
+            ->orderBy('leaders.name') // Order by leader name
+            ->orderBy('people.last_name') // Then by person's last name
+            ->select('people.*') // Select all columns from people
+            ->get();
+    
+        // Pass data to the view
         return view('reports.people', compact('people', 'leaders'));
     }
+    
+
 }
